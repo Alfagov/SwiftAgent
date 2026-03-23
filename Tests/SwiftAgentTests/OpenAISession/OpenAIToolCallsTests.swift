@@ -160,7 +160,8 @@ struct OpenAIToolCallsTests {
       return
     }
 
-    #expect(toolOutputEntry.id == "fc_0cfebcfb17a1bae1016968da286ac88197b6f649d0a48de552")
+    #expect(toolOutputEntry.id == "fc_0cfebcfb17a1bae1016968da286ac88197b6f649d0a48de552_output")
+    #expect(toolOutputEntry.id != toolCall.id)
     #expect(toolOutputEntry.callId == "call_scDlmjxmPWh2nmefVK1WexmU")
     #expect(toolOutputEntry.toolName == "get_weather")
 

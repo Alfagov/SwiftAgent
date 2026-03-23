@@ -176,7 +176,8 @@ struct OpenAIStreamingToolCallsTests {
       return
     }
 
-    #expect(toolOutput.id == "fc_0c4bb6cd4369e1aa016968ca758ef0819fb08c85d6fc982246")
+    #expect(toolOutput.id == "fc_0c4bb6cd4369e1aa016968ca758ef0819fb08c85d6fc982246_output")
+    #expect(toolOutput.id != toolCalls.calls[0].id)
     #expect(toolOutput.callId == "call_ygg090lIbgPfPIoYIGePN4cg")
     #expect(toolOutput.toolName == "get_weather")
 

@@ -588,7 +588,7 @@ extension OpenAIAdapter {
       do {
         let output = try await callTool(tool, with: rawArguments)
         let toolOutputEntry = Transcript.ToolOutput(
-          id: state.callIdentifier,
+          id: toolOutputIdentifier(for: state.callIdentifier),
           callId: state.callId,
           toolName: state.toolName,
           segment: .structure(.init(content: output)),
@@ -606,7 +606,7 @@ extension OpenAIAdapter {
         executedAny = true
       } catch let toolRunRejection as ToolRunRejection {
         let toolOutputEntry = Transcript.ToolOutput(
-          id: state.callIdentifier,
+          id: toolOutputIdentifier(for: state.callIdentifier),
           callId: state.callId,
           toolName: state.toolName,
           segment: .structure(.init(content: toolRunRejection.generatedContent)),

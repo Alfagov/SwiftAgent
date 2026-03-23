@@ -278,9 +278,10 @@ public actor OpenAIAdapter: Adapter {
     continuation: AsyncThrowingStream<AdapterUpdate, any Error>.Continuation,
   ) async throws {
     let generatedContent = try GeneratedContent(json: functionCall.arguments)
+    let toolCallIdentifier = functionCall.id ?? UUID().uuidString
 
     let toolCall = Transcript.ToolCall(
-      id: functionCall.id ?? UUID().uuidString,
+      id: toolCallIdentifier,
       callId: functionCall.callId,
       toolName: functionCall.name,
       arguments: generatedContent,
@@ -309,7 +310,7 @@ public actor OpenAIAdapter: Adapter {
       let output = try await callTool(tool, with: generatedContent)
 
       let toolOutputEntry = Transcript.ToolOutput(
-        id: functionCall.id ?? UUID().uuidString,
+        id: toolOutputIdentifier(for: toolCallIdentifier),
         callId: functionCall.callId,
         toolName: functionCall.name,
         segment: .structure(Transcript.StructuredSegment(content: output)),
@@ -329,7 +330,7 @@ public actor OpenAIAdapter: Adapter {
       continuation.yield(.transcript(transcriptEntry))
     } catch let toolRunRejection as ToolRunRejection {
       let toolOutputEntry = Transcript.ToolOutput(
-        id: functionCall.id ?? UUID().uuidString,
+        id: toolOutputIdentifier(for: toolCallIdentifier),
         callId: functionCall.callId,
         toolName: functionCall.name,
         segment: .structure(Transcript.StructuredSegment(content: toolRunRejection.generatedContent)),
@@ -350,6 +351,10 @@ public actor OpenAIAdapter: Adapter {
       AgentLog.error(error, context: "tool_call_failed_\(tool.name)")
       throw GenerationError.toolExecutionFailed(toolName: tool.name, underlyingError: error)
     }
+  }
+
+  func toolOutputIdentifier(for toolCallIdentifier: String) -> String {
+    "\(toolCallIdentifier)_output"
   }
 
   private func handleReasoning(
