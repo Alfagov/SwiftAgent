@@ -418,7 +418,7 @@ public actor OpenAIAdapter: Adapter {
       prompt: nil,
       reasoning: options.reasoning,
       serviceTier: options.serviceTier,
-      store: false,
+      store: options.store,
       stream: streamResponses ? true : nil,
       temperature: options.temperature,
       text: textConfig,

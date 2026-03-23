@@ -45,6 +45,20 @@ struct OpenAITextTests {
     validateAgentResponse(response)
   }
 
+  @Test("Non-streaming respond forwards store option")
+  func respondForwardsStoreOption() async throws {
+    let response = try await session.respond(
+      to: "Hello?",
+      using: .gpt4o,
+      options: OpenAIGenerationOptions(store: true),
+    )
+
+    let recordedRequests = await mockHTTPClient.recordedRequests()
+    #expect(recordedRequests.count == 1)
+    #expect(recordedRequests[0].body.store == true)
+    #expect(response.content == "Hello from OpenAI")
+  }
+
   // MARK: - Private
 
   private func validateHTTPRequests() async {

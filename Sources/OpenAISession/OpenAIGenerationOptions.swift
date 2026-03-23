@@ -41,6 +41,9 @@ public struct OpenAIGenerationOptions: AdapterGenerationOptions {
   /// The service tier to use, which affects request priority, throughput limits, and cost.
   public var serviceTier: ServiceTier?
 
+  /// Controls whether OpenAI may retain the response for distillation or evaluation.
+  public var store: Bool = false
+
   /// Controls the randomness of the output. Values range from 0 to 2, where higher values produce more random results.
   public var temperature: Double?
 
@@ -73,6 +76,7 @@ public struct OpenAIGenerationOptions: AdapterGenerationOptions {
     reasoning: ReasoningConfig? = nil,
     safetyIdentifier: String? = nil,
     serviceTier: ServiceTier? = nil,
+    store: Bool = false,
     temperature: Double? = nil,
     toolChoice: ToolChoice? = nil,
     topP: Double? = nil,
@@ -85,6 +89,7 @@ public struct OpenAIGenerationOptions: AdapterGenerationOptions {
     self.reasoning = reasoning
     self.safetyIdentifier = safetyIdentifier
     self.serviceTier = serviceTier
+    self.store = store
     self.temperature = temperature
     self.toolChoice = toolChoice
     self.topP = topP
