@@ -14,20 +14,15 @@ public actor SimulationAdapter: Adapter {
 
   package let configuration: SimulationConfiguration
   private let instructions: String
-  private let storedTools: [any SwiftAgentTool]
+  public nonisolated let tools: [any SwiftAgentTool]
   private let configuredDefaultGenerations: [SimulatedGeneration]
-  private var nextDefaultGenerationIndex: Int
-
-  public nonisolated var tools: [any SwiftAgentTool] {
-    storedTools
-  }
+  private var nextDefaultGenerationIndex: Int = 0
 
   public init(tools: [any SwiftAgentTool], instructions: String, configuration: SimulationConfiguration) {
     self.configuration = configuration
     self.instructions = instructions
-    storedTools = tools
+    self.tools = tools
     configuredDefaultGenerations = configuration.defaultGenerations
-    nextDefaultGenerationIndex = 0
   }
 
   public func respond(
