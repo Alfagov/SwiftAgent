@@ -9,7 +9,7 @@ public protocol Adapter: Actor {
   associatedtype Configuration: AdapterConfiguration
   associatedtype ConfigurationError: Error & Sendable
 
-  nonisolated var tools: [any SwiftAgentTool] { get }
+  var tools: [any SwiftAgentTool] { get }
 
   init(tools: [any SwiftAgentTool], instructions: String, configuration: Configuration)
 

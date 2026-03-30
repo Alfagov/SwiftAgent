@@ -18,7 +18,7 @@ public actor SimulationAdapter: Adapter {
   private let configuredDefaultGenerations: [SimulatedGeneration]
   private var nextDefaultGenerationIndex: Int
 
-  public nonisolated var tools: [any SwiftAgentTool] {
+  public var tools: [any SwiftAgentTool] {
     storedTools
   }
 
