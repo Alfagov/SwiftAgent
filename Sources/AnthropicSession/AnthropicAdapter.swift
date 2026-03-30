@@ -7,6 +7,7 @@ import SwiftAgent
 
 public actor AnthropicAdapter: Adapter {
   public typealias Model = AnthropicModel
+  public typealias Configuration = AnthropicConfiguration
   public typealias Transcript = SwiftAgent.Transcript
   public typealias ConfigurationError = AnthropicGenerationOptionsError
 

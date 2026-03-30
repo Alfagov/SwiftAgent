@@ -14,9 +14,7 @@ public final class SimulatedSession<
   @ObservationIgnored public let adapter: SimulationAdapter
   @ObservationIgnored public var schema: SessionSchema
 
-  @ObservationIgnored public var tools: [any SwiftAgentTool] {
-    adapter.tools
-  }
+  @ObservationIgnored public let tools: [any SwiftAgentTool]
 
   public var transcript: SwiftAgent.Transcript = Transcript()
   public var tokenUsage: TokenUsage = .init()
@@ -41,6 +39,7 @@ public final class SimulatedSession<
       var wrappedTools: [any SwiftAgentTool] = []
       _ = (repeat wrappedTools.append(_SwiftAgentToolWrapper(tool: each tools)))
 
+      self.tools = wrappedTools
       schema = NoSchema()
       adapter = SimulationAdapter(
         tools: wrappedTools,
@@ -54,6 +53,7 @@ public final class SimulatedSession<
     instructions: String,
     configuration: SimulationConfiguration,
   ) {
+    self.tools = schema.tools
     self.schema = schema
     adapter = SimulationAdapter(
       tools: schema.tools,
